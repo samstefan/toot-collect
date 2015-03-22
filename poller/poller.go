@@ -19,7 +19,6 @@ import (
 const (
 	requestUrl     = "/1.1/statuses/user_timeline.json?%v"
 	count      int = 1
-	longForm       = "Sun Mar 22 17:20:17 +0000 2015"
 )
 
 var (
@@ -81,7 +80,7 @@ func poll(client *twittergo.Client, account account) {
 			tweetToSave.TweetId = decocedResponse[0].TweetId
 			tweetToSave.User.Name = decocedResponse[0].User.Name
 			tweetToSave.User.ScreenName = decocedResponse[0].User.ScreenName
-			tweetToSave.DatePosted, _ = time.Parse(longForm, decocedResponse[0].DatePosted)
+			tweetToSave.DatePosted, _ = time.Parse(time.RubyDate, decocedResponse[0].DatePosted)
 			tweetToSave.Text = decocedResponse[0].Text
 
 			// Upsert the document
