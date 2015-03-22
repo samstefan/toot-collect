@@ -1,45 +1,45 @@
 package poller
 
 import (
-	"os"
-	"net/http"
-	"net/url"
-	"time"
+	"encoding/json"
 	"fmt"
 	"log"
-	"encoding/json"
+	"net/http"
+	"net/url"
+	"os"
+	"time"
 
 	"../db"
 	"../models"
 
+	"github.com/kurrik/twittergo"
 	"labix.org/v2/mgo/bson"
-  "github.com/kurrik/twittergo"
 )
 
 const (
-	requestUrl = "/1.1/statuses/user_timeline.json?%v"
-	count int = 1
-	longForm = "Sun Mar 22 17:20:17 +0000 2015"
+	requestUrl     = "/1.1/statuses/user_timeline.json?%v"
+	count      int = 1
+	longForm       = "Sun Mar 22 17:20:17 +0000 2015"
 )
 
 var (
 	dbConnection = os.Getenv("MONGODB")
-	query    url.Values
-	response *twittergo.APIResponse
-	req      *http.Request
-	err      error
-	results  *twittergo.Timeline
+	query        url.Values
+	response     *twittergo.APIResponse
+	req          *http.Request
+	err          error
+	results      *twittergo.Timeline
 )
 
 type tweets struct {
-	TweetId string `json:"id_str"`
-	User user `json:"user"`
+	TweetId    string `json:"id_str"`
+	User       user   `json:"user"`
 	DatePosted string `json:"created_at"`
-	Text string `json:"text"`
+	Text       string `json:"text"`
 }
 
 type user struct {
-	Name string `json:"name"`
+	Name       string `json:"name"`
 	ScreenName string `json:"screen_name"`
 }
 
@@ -85,7 +85,7 @@ func poll(client *twittergo.Client, account account) {
 			tweetToSave.Text = decocedResponse[0].Text
 
 			// Upsert the document
-			_, err := c.Upsert(bson.M{"tweetId": tweetToSave.TweetId}, bson.M{"$set": tweetToSave })
+			_, err := c.Upsert(bson.M{"tweetId": tweetToSave.TweetId}, bson.M{"$set": tweetToSave})
 
 			if err != nil {
 				log.Println(err)

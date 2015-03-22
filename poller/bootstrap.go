@@ -1,18 +1,18 @@
 package poller
 
 import (
-	"log"
-	"time"
-	"os"
 	"encoding/json"
+	"log"
+	"os"
+	"time"
 
 	"github.com/kurrik/oauth1a"
 	"github.com/kurrik/twittergo"
 )
 
 type properties struct {
-  Accounts    []account   `json:"accounts"`
-  Credentials credentials `json:"credentials"`
+	Accounts    []account   `json:"accounts"`
+	Credentials credentials `json:"credentials"`
 }
 
 type account struct {
@@ -38,8 +38,8 @@ func Bootstrap() {
 	}
 }
 
-func calculateIntervalTime(accounts int, requests int, seconds int) (time.Duration) {
-	return time.Duration((seconds / (requests / (accounts + 1))) * 1000) * time.Millisecond
+func calculateIntervalTime(accounts int, requests int, seconds int) time.Duration {
+	return time.Duration((seconds/(requests/(accounts+1)))*1000) * time.Millisecond
 }
 
 func authWithTwitter(credentials credentials) (client *twittergo.Client) {
@@ -49,24 +49,24 @@ func authWithTwitter(credentials credentials) (client *twittergo.Client) {
 	}
 
 	user := oauth1a.NewAuthorizedConfig(credentials.AccessToken, credentials.AccessTokenSecret)
-  client = twittergo.NewClient(config, user)
+	client = twittergo.NewClient(config, user)
 	return client
 }
 
 func getProperties() (results properties) {
 	// Open properties file
-  propertiesFile, err := os.Open("./properties.json")
+	propertiesFile, err := os.Open("./properties.json")
 
-  if err != nil {
-    log.Println("Error opening properties file", err.Error())
-  }
+	if err != nil {
+		log.Println("Error opening properties file", err.Error())
+	}
 
 	// Parse the JSON
-  jsonParser := json.NewDecoder(propertiesFile)
+	jsonParser := json.NewDecoder(propertiesFile)
 
-  if err = jsonParser.Decode(&results); err != nil {
-    log.Println("Error parsing properties file", err.Error())
-  }
+	if err = jsonParser.Decode(&results); err != nil {
+		log.Println("Error parsing properties file", err.Error())
+	}
 
 	return results
 }
