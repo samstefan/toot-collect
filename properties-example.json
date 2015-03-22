@@ -1,0 +1,10 @@
+{ "accounts":
+  [ { "user": "samstefan" }
+  ]
+, "credentials":
+  { "consumerKey": ""
+  , "consumerSecret": ""
+  , "accessToken": ""
+  , "accessTokenSecret": ""
+  }
+}
