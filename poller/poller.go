@@ -91,5 +91,7 @@ func poll(client *twittergo.Client, account account) {
 				log.Println(err)
 			}
 		}
+
+		defer response.Body.Close()
 	}
 }
