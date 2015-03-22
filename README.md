@@ -13,3 +13,7 @@ Copy the `properties-example.json` file to `properties,json` and fill out approp
 
 - Build the project with `$ make build`
 - Run the app with `$ make run`
+
+## End points
+
+Get users latests tweet: `/tweets/:screenName`
