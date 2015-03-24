@@ -25,7 +25,7 @@ func getTweet(w robo.ResponseWriter, r *robo.Request) {
 
 	if len(screenName) > 0 {
 		result := models.TweetModel{}
-		err := c.Find(bson.M{"user.screenName": screenName}).Sort("datePosted").One(&result)
+		err := c.Find(bson.M{"user.screenName": screenName}).Sort("-datePosted").One(&result)
 		if err != nil {
 			send(w, "application/json", []byte("Screen name not found"))
 		} else {
