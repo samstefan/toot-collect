@@ -2,7 +2,6 @@ package routes
 
 import (
 	"encoding/json"
-	// "log"
 	"os"
 
 	"../db"
